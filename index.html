@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jatin Akhand — Video Editor & Motion Designer</title>
+  <meta name="description" content="Crafting high-retention visual stories through motion, rhythm & narrative depth. 3+ years of experience in video editing, motion graphics, and sound design.">
+
+  <!-- ① Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- ② Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FBFBF9',
+            surface: '#F3F3EF',
+            border: '#E6E6E0',
+            charcoal: '#121212',
+            muted: '#6A6A64',
+            emerald: '#10B981',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- ③ Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- ④ Custom CSS -->
+  <style>
+    /* ═══ GLOBAL FONT OVERRIDES ═══ */
+    body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, div, blockquote, li, td, th, label {
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    }
+    h1, h2, h3 {
+      line-height: 1.25 !important;
+    }
+
+    /* ═══ SERIF ACCENT ═══ */
+    .serif-accent {
+      font-family: 'Instrument Serif', Georgia, serif !important;
+      font-style: italic !important;
+      font-weight: 400 !important;
+    }
+
+    /* ═══ BASE & UTILITIES ═══ */
+    html { scroll-behavior: smooth; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fade-up 0.6s ease-out both; }
+    .fade-up-d1 { animation-delay: 0.1s; }
+    .fade-up-d2 { animation-delay: 0.2s; }
+    .fade-up-d3 { animation-delay: 0.3s; }
+
+    .glass-header {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* ═══ SMOOTH SLIDER CONTAINER ═══ */
+    .slider-track {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.5rem 0.25rem 1.25rem 0.25rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .slider-track::-webkit-scrollbar { display: none; }
+
+    .slider-card {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+
+    /* ═══ CARD HOVER & SHADOWS ═══ */
+    .vid-card {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .vid-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px -8px rgba(18, 18, 18, 0.08);
+      border-color: #D6D6CF;
+    }
+    .vid-thumb {
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .vid-card:hover .vid-thumb {
+      transform: scale(1.03);
+    }
+
+    .pg-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .pg-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    /* ═══ SLIDER BUTTONS ═══ */
+    .slide-nav-btn {
+      transition: all 0.2s ease;
+    }
+    .slide-nav-btn:hover:not(:disabled) {
+      background-color: #121212;
+      color: #FBFBF9;
+      transform: scale(1.05);
+    }
+    .slide-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ═══ CATEGORY FILTER TABS ═══ */
+    .cat-tab {
+      transition: all 0.2s ease;
+    }
+    .cat-tab.active {
+      background-color: #121212;
+      color: #FBFBF9;
+      border-color: #121212;
+    }
+    .cat-tab:not(.active):hover {
+      background-color: #EAEAE4;
+      color: #121212;
+    }
+  </style>
+</head>
+
+<body class="bg-cream text-charcoal antialiased font-sans">
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- STICKY HEADER                                  -->
+  <!-- ══════════════════════════════════════════════ -->
+  <header class="glass-header fixed top-0 left-0 right-0 z-50 bg-cream/85 border-b border-border/70">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="font-semibold text-base text-charcoal tracking-tight hover:opacity-75 transition-opacity">
+        Jatin Akhand
+      </a>
+      <nav class="hidden md:flex items-center gap-7">
+        <a href="#work" class="text-sm font-medium text-muted hover:text-charcoal transition-colors">Work</a>
+        <a href="#playground" class="text-sm font-medium text-muted hover:text-charcoal transition-colors">Playground</a>
+        <a href="#reviews" class="text-sm font-medium text-muted hover:text-charcoal transition-colors">Reviews</a>
+        <a href="#about" class="text-sm font-medium text-muted hover:text-charcoal transition-colors">About</a>
+        <a href="#contact" class="inline-flex items-center gap-2 bg-charcoal text-cream text-sm font-medium px-5 py-2.5 rounded-full hover:bg-charcoal/85 transition-colors">
+          Let's Talk <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </nav>
+      <button id="mob-btn" class="md:hidden p-2 -mr-2 text-charcoal" aria-label="Open Menu">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div id="mob-menu" class="md:hidden hidden border-t border-border bg-cream/98 glass-header">
+      <div class="px-6 py-4 flex flex-col gap-3">
+        <a href="#work" class="text-sm font-medium text-muted hover:text-charcoal py-2 mob-link">Work</a>
+        <a href="#playground" class="text-sm font-medium text-muted hover:text-charcoal py-2 mob-link">Playground</a>
+        <a href="#reviews" class="text-sm font-medium text-muted hover:text-charcoal py-2 mob-link">Reviews</a>
+        <a href="#about" class="text-sm font-medium text-muted hover:text-charcoal py-2 mob-link">About</a>
+        <a href="#contact" class="inline-flex items-center justify-center gap-2 bg-charcoal text-cream text-sm font-medium px-5 py-2.5 rounded-full mt-1 mob-link">
+          Let's Talk <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- HERO SECTION                                   -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section class="pt-32 pb-16 md:pt-40 md:pb-24 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+
+      <!-- Availability Badge -->
+      <div class="fade-up inline-flex items-center gap-2.5 bg-surface border border-border rounded-full px-4 py-2 mb-8">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="pulse-dot absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald"></span>
+        </span>
+        <span class="text-xs md:text-sm text-muted font-medium tracking-wide">
+          Available for new projects &nbsp;·&nbsp; 3+ Years Experience &nbsp;·&nbsp; 100% Success Rate
+        </span>
+      </div>
+
+      <!-- Main Heading with balanced text wrap -->
+      <h1 class="fade-up fade-up-d1 text-3xl sm:text-4xl md:text-[3.25rem] lg:text-[3.5rem] font-semibold tracking-tight text-charcoal mb-6" style="line-height: 1.22; text-wrap: balance;">
+        Crafting <span class="serif-accent">high-retention</span> visual stories through motion, rhythm &amp; narrative depth.
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="fade-up fade-up-d2 text-base md:text-lg text-muted max-w-2xl mx-auto leading-relaxed mb-9">
+        I make complex ideas easy to understand and impossible to skip — specializing in long-form video essays, high-retention short-form reels, 2D/3D motion graphics, and commercial promos.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="fade-up fade-up-d3 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#work" class="inline-flex items-center gap-2 bg-charcoal text-cream font-medium px-7 py-3.5 rounded-full hover:bg-charcoal/85 transition-colors text-sm">
+          Explore Selected Work <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </a>
+        <button onclick="copyEmail()" id="copy-btn" class="inline-flex items-center gap-2 bg-surface border border-border text-charcoal font-medium px-7 py-3.5 rounded-full hover:bg-border/60 transition-colors text-sm">
+          <i data-lucide="copy" class="w-4 h-4" id="copy-icon"></i>
+          <span id="copy-text">Copy Email</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SELECTED WORK — CATEGORIZED SLIDERS            -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section id="work" class="py-16 md:py-24 px-6 border-t border-border">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-2">Portfolio</p>
+          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">
+            Selected projects that <span class="serif-accent">perform</span>
+          </h2>
+        </div>
+        <p class="text-xs md:text-sm text-muted max-w-sm">Use category filters or slide arrows to browse. Click any card to watch.</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2 mb-12">
+        <button class="cat-tab active text-xs md:text-sm font-medium px-4 py-2 rounded-full border border-border" onclick="filterCategory('all', this)">All Work</button>
+        <button class="cat-tab text-xs md:text-sm font-medium px-4 py-2 rounded-full border border-border text-muted" onclick="filterCategory('longform', this)">Long-Form Essays</button>
+        <button class="cat-tab text-xs md:text-sm font-medium px-4 py-2 rounded-full border border-border text-muted" onclick="filterCategory('shortform', this)">Short-Form Reels</button>
+        <button class="cat-tab text-xs md:text-sm font-medium px-4 py-2 rounded-full border border-border text-muted" onclick="filterCategory('motion', this)">Motion Graphics</button>
+        <button class="cat-tab text-xs md:text-sm font-medium px-4 py-2 rounded-full border border-border text-muted" onclick="filterCategory('promo', this)">Product Promos</button>
+        <button class="cat-tab text-xs md:text-sm font-medium px-4 py-2 rounded-full border border-border text-muted" onclick="filterCategory('client', this)">Client Channels</button>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- CATEGORY 1: LONG-FORM VIDEO ESSAYS           -->
+      <!-- ════════════════════════════════════════════ -->
+      <div class="work-cat mb-16" data-cat="longform">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-100/80 border border-amber-200/60 flex items-center justify-center">
+              <i data-lucide="film" class="w-4 h-4 text-amber-800"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight text-charcoal">Long-Form Video Essays</h3>
+              <p class="text-xs text-muted">Documentary pacing · Vox-style motion · 80%+ average retention</p>
+            </div>
+          </div>
+          <!-- Slider Controls -->
+          <div class="flex items-center gap-2">
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('longform-track', -1)" aria-label="Previous">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('longform-track', 1)" aria-label="Next">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="longform-track" class="slider-track">
+          <!-- Card 1 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="The Hidden Mechanics of Market Cycles">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-amber-100/70 via-orange-50 to-amber-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">14:20</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Long-Form</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Vox-Style</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Economics</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">The Hidden Mechanics of Market Cycles</h4>
+              <p class="text-xs text-muted leading-relaxed">Documentary pacing, paper-tear textures, and animated chart overlays engineered for 80%+ average view duration.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="How Your Brain Rewires While You Sleep">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-emerald-100/70 via-teal-50 to-emerald-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">11:45</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Long-Form</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Neuroscience</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">How Your Brain Rewires While You Sleep</h4>
+              <p class="text-xs text-muted leading-relaxed">Neuroscience explainer with 3D brain models, camera sweeps, and data-driven visual storytelling.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="The Rise & Fall of Digital Empires">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-yellow-100/70 via-amber-50 to-yellow-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">18:05</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Long-Form</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Tech History</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">The Rise & Fall of Digital Empires</h4>
+              <p class="text-xs text-muted leading-relaxed">Archival footage compositing with kinetic typography, animated timeline infographics, and Foley sound.</p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Why Every App Feels the Same Now">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-orange-100/70 via-rose-50 to-orange-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">09:30</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Long-Form</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">UI/UX</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">Why Every App Feels the Same Now</h4>
+              <p class="text-xs text-muted leading-relaxed">UI/UX critique edit with screen recordings, smooth 3D device rotations, and split-screen pacing.</p>
+            </div>
+          </div>
+
+          <!-- Add More Placeholder -->
+          <div class="slider-card w-[200px] flex-shrink-0 flex items-center justify-center border-2 border-dashed border-border rounded-2xl p-6 bg-surface/50 text-center">
+            <div>
+              <i data-lucide="plus-circle" class="w-7 h-7 mx-auto mb-2 text-muted/50"></i>
+              <p class="text-xs font-medium text-muted">More Videos</p>
+              <p class="text-[10px] text-muted/70 mt-1">Ready for your links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- CATEGORY 2: SHORT-FORM REELS & SHORTS        -->
+      <!-- ════════════════════════════════════════════ -->
+      <div class="work-cat mb-16" data-cat="shortform">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-violet-100/80 border border-violet-200/60 flex items-center justify-center">
+              <i data-lucide="smartphone" class="w-4 h-4 text-violet-800"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight text-charcoal">Short-Form Reels &amp; Shorts</h3>
+              <p class="text-xs text-muted">Micro-hooks · Dynamic captions · Kinetic text · 9:16 vertical edits</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('shortform-track', -1)" aria-label="Previous">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('shortform-track', 1)" aria-label="Next">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="shortform-track" class="slider-track">
+          <!-- Short 1 -->
+          <div class="slider-card vid-card w-[240px] sm:w-[260px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="High-Retention Micro-Hooks for Creators">
+            <div class="aspect-[9/14] w-full overflow-hidden relative bg-gradient-to-b from-violet-200/60 via-fuchsia-100/50 to-violet-300/40">
+              <div class="vid-thumb w-full h-full flex flex-col items-center justify-center relative p-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg mb-2">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="text-[11px] font-semibold text-charcoal/70 bg-white/70 backdrop-blur-sm px-2.5 py-1 rounded-full">Reel · 0:45</span>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex flex-wrap gap-1 mb-2">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Reels</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Captions</span>
+              </div>
+              <h4 class="text-xs font-semibold mb-1 tracking-tight text-charcoal line-clamp-1">High-Retention Micro-Hooks</h4>
+              <p class="text-[11px] text-muted line-clamp-2 leading-relaxed">Kinetic subtitles, sound accents, and fast visual cuts.</p>
+            </div>
+          </div>
+
+          <!-- Short 2 -->
+          <div class="slider-card vid-card w-[240px] sm:w-[260px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Creator Growth Hook Series">
+            <div class="aspect-[9/14] w-full overflow-hidden relative bg-gradient-to-b from-rose-200/60 via-pink-100/50 to-rose-300/40">
+              <div class="vid-thumb w-full h-full flex flex-col items-center justify-center relative p-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg mb-2">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="text-[11px] font-semibold text-charcoal/70 bg-white/70 backdrop-blur-sm px-2.5 py-1 rounded-full">Shorts · 0:32</span>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex flex-wrap gap-1 mb-2">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Shorts</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">SFX</span>
+              </div>
+              <h4 class="text-xs font-semibold mb-1 tracking-tight text-charcoal line-clamp-1">Creator Growth Hook Series</h4>
+              <p class="text-[11px] text-muted line-clamp-2 leading-relaxed">Sound-synced transitions with zoom punch-ins.</p>
+            </div>
+          </div>
+
+          <!-- Short 3 -->
+          <div class="slider-card vid-card w-[240px] sm:w-[260px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Finance Explainer Shorts">
+            <div class="aspect-[9/14] w-full overflow-hidden relative bg-gradient-to-b from-blue-200/60 via-indigo-100/50 to-blue-300/40">
+              <div class="vid-thumb w-full h-full flex flex-col items-center justify-center relative p-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg mb-2">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="text-[11px] font-semibold text-charcoal/70 bg-white/70 backdrop-blur-sm px-2.5 py-1 rounded-full">Reel · 0:58</span>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex flex-wrap gap-1 mb-2">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Reels</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Motion</span>
+              </div>
+              <h4 class="text-xs font-semibold mb-1 tracking-tight text-charcoal line-clamp-1">Finance Explainer in 60s</h4>
+              <p class="text-[11px] text-muted line-clamp-2 leading-relaxed">Complex finance simplified with motion graphics.</p>
+            </div>
+          </div>
+
+          <!-- Short 4 -->
+          <div class="slider-card vid-card w-[240px] sm:w-[260px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Viral Trend Remix Edits">
+            <div class="aspect-[9/14] w-full overflow-hidden relative bg-gradient-to-b from-emerald-200/60 via-green-100/50 to-emerald-300/40">
+              <div class="vid-thumb w-full h-full flex flex-col items-center justify-center relative p-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg mb-2">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="text-[11px] font-semibold text-charcoal/70 bg-white/70 backdrop-blur-sm px-2.5 py-1 rounded-full">Shorts · 0:28</span>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex flex-wrap gap-1 mb-2">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Shorts</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Viral</span>
+              </div>
+              <h4 class="text-xs font-semibold mb-1 tracking-tight text-charcoal line-clamp-1">Viral Trend Remix Edit</h4>
+              <p class="text-[11px] text-muted line-clamp-2 leading-relaxed">High-energy sound effects with tempo sync.</p>
+            </div>
+          </div>
+
+          <!-- Add More Placeholder -->
+          <div class="slider-card w-[180px] flex-shrink-0 flex items-center justify-center border-2 border-dashed border-border rounded-2xl p-4 bg-surface/50 text-center">
+            <div>
+              <i data-lucide="plus-circle" class="w-7 h-7 mx-auto mb-2 text-muted/50"></i>
+              <p class="text-xs font-medium text-muted">More Reels</p>
+              <p class="text-[10px] text-muted/70 mt-1">Ready for links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- CATEGORY 3: 2D/3D MOTION GRAPHICS            -->
+      <!-- ════════════════════════════════════════════ -->
+      <div class="work-cat mb-16" data-cat="motion">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-sky-100/80 border border-sky-200/60 flex items-center justify-center">
+              <i data-lucide="layers" class="w-4 h-4 text-sky-800"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight text-charcoal">2D &amp; 3D Motion Graphics</h3>
+              <p class="text-xs text-muted">After Effects · Blender · 3D camera tracking · Compositing</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('motion-track', -1)" aria-label="Previous">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('motion-track', 1)" aria-label="Next">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="motion-track" class="slider-track">
+          <!-- Card 1 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Spatial UI & Neural Network Explainer">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-sky-100/70 via-cyan-50 to-sky-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">03:40</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">After Effects</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">3D Tracking</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">Spatial UI &amp; Neural Network Explainer</h4>
+              <p class="text-xs text-muted leading-relaxed">Custom After Effects animations and 3D camera tracking breaking down complex tech infrastructure.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="3D SaaS Dashboard Interactive Breakdown">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-indigo-100/70 via-blue-50 to-indigo-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">02:15</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Blender 3D</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Compositing</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">3D SaaS Dashboard Interactive Breakdown</h4>
+              <p class="text-xs text-muted leading-relaxed">Blender 3D renders combined with After Effects UI composites for product feature announcements.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Animated Data Story — Global Metrics">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-teal-100/70 via-cyan-50 to-teal-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">04:10</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Motion</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Data Viz</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">Animated Data Story — Global Metrics</h4>
+              <p class="text-xs text-muted leading-relaxed">Map overlays, animated charts, and particle flows turning statistical data into visually captivating stories.</p>
+            </div>
+          </div>
+
+          <!-- Add More Placeholder -->
+          <div class="slider-card w-[200px] flex-shrink-0 flex items-center justify-center border-2 border-dashed border-border rounded-2xl p-6 bg-surface/50 text-center">
+            <div>
+              <i data-lucide="plus-circle" class="w-7 h-7 mx-auto mb-2 text-muted/50"></i>
+              <p class="text-xs font-medium text-muted">More Motion</p>
+              <p class="text-[10px] text-muted/70 mt-1">Ready for links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- CATEGORY 4: PRODUCT PROMOS & COMMERCIALS     -->
+      <!-- ════════════════════════════════════════════ -->
+      <div class="work-cat mb-16" data-cat="promo">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-rose-100/80 border border-rose-200/60 flex items-center justify-center">
+              <i data-lucide="clapperboard" class="w-4 h-4 text-rose-800"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight text-charcoal">Product Promos &amp; Commercials</h3>
+              <p class="text-xs text-muted">Speed ramps · Foley sound design · DaVinci Color Grading · Commercials</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('promo-track', -1)" aria-label="Previous">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('promo-track', 1)" aria-label="Next">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="promo-track" class="slider-track">
+          <!-- Card 1 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Cinematic Brand Commercial">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-rose-100/70 via-pink-50 to-amber-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">01:00</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Product Promo</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Color Grading</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">Cinematic Brand Commercial</h4>
+              <p class="text-xs text-muted leading-relaxed">High-energy commercial edit with speed ramps, bespoke Foley sound design, and custom color LUTs.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="App Launch Campaign — 30s Ad Spot">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-amber-100/70 via-yellow-50 to-orange-200/50">
+              <div class="vid-thumb w-full h-full flex items-center justify-center relative">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="absolute bottom-3 right-3 text-[10px] font-semibold bg-charcoal/80 text-cream px-2 py-0.5 rounded">00:30</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Ad Spot</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Sound Design</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">App Launch Campaign — 30s Spot</h4>
+              <p class="text-xs text-muted leading-relaxed">Crisp product visuals with fluid UI animations and punchy audio mastering for digital ad campaigns.</p>
+            </div>
+          </div>
+
+          <!-- Add More Placeholder -->
+          <div class="slider-card w-[200px] flex-shrink-0 flex items-center justify-center border-2 border-dashed border-border rounded-2xl p-6 bg-surface/50 text-center">
+            <div>
+              <i data-lucide="plus-circle" class="w-7 h-7 mx-auto mb-2 text-muted/50"></i>
+              <p class="text-xs font-medium text-muted">More Promos</p>
+              <p class="text-[10px] text-muted/70 mt-1">Ready for links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- CATEGORY 5: CLIENT CHANNELS & PARTNERSHIPS   -->
+      <!-- ════════════════════════════════════════════ -->
+      <div class="work-cat" data-cat="client">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-purple-100/80 border border-purple-200/60 flex items-center justify-center">
+              <i data-lucide="users" class="w-4 h-4 text-purple-800"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight text-charcoal">Client Channels &amp; Long-Term Work</h3>
+              <p class="text-xs text-muted">Creator partnerships · YouTube channel growth · Brand consistency</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('client-track', -1)" aria-label="Previous">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button class="slide-nav-btn w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-charcoal" onclick="slideRow('client-track', 1)" aria-label="Next">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="client-track" class="slider-track">
+          <!-- Card 1 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Social Catfish — YouTube & Instagram Content">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-indigo-100/80 via-purple-50 to-blue-200/60">
+              <div class="vid-thumb w-full h-full flex flex-col items-center justify-center relative p-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg mb-2">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="text-xs font-semibold text-charcoal/80 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full">Social Catfish</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">YouTube</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Channel Growth</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">Social Catfish — YouTube &amp; Instagram</h4>
+              <p class="text-xs text-muted leading-relaxed">Weekly episodic content, high-retention hooks, and branded soundscapes for millions of viewers.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="slider-card vid-card w-[320px] sm:w-[360px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer group" onclick="playVideo(this)" data-video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-title="Creator Academy — Full Channel Production">
+            <div class="aspect-video w-full overflow-hidden relative bg-gradient-to-br from-emerald-100/80 via-teal-50 to-green-200/60">
+              <div class="vid-thumb w-full h-full flex flex-col items-center justify-center relative p-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-charcoal/90 text-cream flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg mb-2">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </div>
+                <span class="text-xs font-semibold text-charcoal/80 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full">Creator Channel</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex flex-wrap gap-1.5 mb-2.5">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Education</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-muted bg-cream px-2 py-0.5 rounded-full border border-border">Full Edits</span>
+              </div>
+              <h4 class="text-sm font-semibold mb-1 tracking-tight text-charcoal">Creator Academy — Full Video Package</h4>
+              <p class="text-xs text-muted leading-relaxed">Complete editing workflow including motion graphics, custom sound design, and color matching.</p>
+            </div>
+          </div>
+
+          <!-- Add More Placeholder -->
+          <div class="slider-card w-[200px] flex-shrink-0 flex items-center justify-center border-2 border-dashed border-border rounded-2xl p-6 bg-surface/50 text-center">
+            <div>
+              <i data-lucide="plus-circle" class="w-7 h-7 mx-auto mb-2 text-muted/50"></i>
+              <p class="text-xs font-medium text-muted">More Channels</p>
+              <p class="text-[10px] text-muted/70 mt-1">Ready for links</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- CREATIVE PLAYGROUND                            -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section id="playground" class="py-16 md:py-24 px-6 border-t border-border">
+    <div class="max-w-6xl mx-auto">
+      <div class="mb-12">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-2">Creative Playground</p>
+        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">
+          Things that <span class="serif-accent">inspire</span> or itch my creative side
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 01 -->
+        <div class="pg-card bg-surface border border-border rounded-xl p-6 group">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-xs font-mono text-muted/60 font-medium">01</span>
+            <div class="w-9 h-9 rounded-lg bg-cream border border-border flex items-center justify-center">
+              <i data-lucide="type" class="w-4 h-4 text-muted group-hover:text-charcoal transition-colors"></i>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold mb-1.5 tracking-tight text-charcoal">Kinetic Typography &amp; Variable Fonts</h3>
+          <p class="text-xs text-muted leading-relaxed">Expressive text animations synced to audio beats with weight-shifting variable font transitions.</p>
+        </div>
+
+        <!-- 02 -->
+        <div class="pg-card bg-surface border border-border rounded-xl p-6 group">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-xs font-mono text-muted/60 font-medium">02</span>
+            <div class="w-9 h-9 rounded-lg bg-cream border border-border flex items-center justify-center">
+              <i data-lucide="scissors" class="w-4 h-4 text-muted group-hover:text-charcoal transition-colors"></i>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold mb-1.5 tracking-tight text-charcoal">Paper Textures &amp; Torn Collage Transitions</h3>
+          <p class="text-xs text-muted leading-relaxed">Analog-feel rip effects and layered paper collage transitions for editorial storytelling.</p>
+        </div>
+
+        <!-- 03 -->
+        <div class="pg-card bg-surface border border-border rounded-xl p-6 group">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-xs font-mono text-muted/60 font-medium">03</span>
+            <div class="w-9 h-9 rounded-lg bg-cream border border-border flex items-center justify-center">
+              <i data-lucide="orbit" class="w-4 h-4 text-muted group-hover:text-charcoal transition-colors"></i>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold mb-1.5 tracking-tight text-charcoal">3D Camera Tracking &amp; Compositing</h3>
+          <p class="text-xs text-muted leading-relaxed">Seamless integration of 3D elements into live footage using Mocha and After Effects.</p>
+        </div>
+
+        <!-- 04 -->
+        <div class="pg-card bg-surface border border-border rounded-xl p-6 group">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-xs font-mono text-muted/60 font-medium">04</span>
+            <div class="w-9 h-9 rounded-lg bg-cream border border-border flex items-center justify-center">
+              <i data-lucide="pen-tool" class="w-4 h-4 text-muted group-hover:text-charcoal transition-colors"></i>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold mb-1.5 tracking-tight text-charcoal">Frame-by-Frame Doodle Accents</h3>
+          <p class="text-xs text-muted leading-relaxed">Hand-drawn animated overlays — arrows, circles, underlines — adding a human touch.</p>
+        </div>
+
+        <!-- 05 -->
+        <div class="pg-card bg-surface border border-border rounded-xl p-6 group">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-xs font-mono text-muted/60 font-medium">05</span>
+            <div class="w-9 h-9 rounded-lg bg-cream border border-border flex items-center justify-center">
+              <i data-lucide="audio-lines" class="w-4 h-4 text-muted group-hover:text-charcoal transition-colors"></i>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold mb-1.5 tracking-tight text-charcoal">Granular Foley &amp; Multi-Layer Sound</h3>
+          <p class="text-xs text-muted leading-relaxed">Immersive audio landscapes with layered Foley, room ambience, and sync-point SFX.</p>
+        </div>
+
+        <!-- 06 -->
+        <div class="pg-card bg-surface border border-border rounded-xl p-6 group">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-xs font-mono text-muted/60 font-medium">06</span>
+            <div class="w-9 h-9 rounded-lg bg-cream border border-border flex items-center justify-center">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-muted group-hover:text-charcoal transition-colors"></i>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold mb-1.5 tracking-tight text-charcoal">Data-Driven Heatmaps &amp; Dynamic Charts</h3>
+          <p class="text-xs text-muted leading-relaxed">Animated data visualizations that transform complex metrics into visual narratives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- CLIENT REVIEWS & TESTIMONIALS                  -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section id="reviews" class="py-16 md:py-24 px-6 border-t border-border">
+    <div class="max-w-6xl mx-auto">
+      <div class="mb-12">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-2">Verified Feedback</p>
+        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">
+          Real reviews from <span class="serif-accent">real</span> clients
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Review 1 -->
+        <div class="bg-surface border border-border rounded-2xl p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 mb-5">
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <span class="text-xs text-muted ml-2 font-medium">5.0</span>
+            </div>
+            <blockquote class="text-sm leading-relaxed text-charcoal/90 mb-6">
+              "Jatin is a 10/10. His communication was top-notch, he met all deadlines, and his animation skills were reasonably strong. He went above and beyond understanding the standards."
+            </blockquote>
+          </div>
+          <div class="flex items-center gap-3 pt-5 border-t border-border">
+            <div class="w-9 h-9 rounded-full bg-charcoal/10 flex items-center justify-center">
+              <i data-lucide="user" class="w-4 h-4 text-muted"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-charcoal">Verified Client</p>
+              <p class="text-[11px] text-muted">After Effects &amp; Motion Design</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-surface border border-border rounded-2xl p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 mb-5">
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <span class="text-xs text-muted ml-2 font-medium">5.0</span>
+            </div>
+            <blockquote class="text-sm leading-relaxed text-charcoal/90 mb-6">
+              "Jatin is so talented with wonderful communication skills. He's really such a superstar!"
+            </blockquote>
+          </div>
+          <div class="flex items-center gap-3 pt-5 border-t border-border">
+            <div class="w-9 h-9 rounded-full bg-charcoal/10 flex items-center justify-center">
+              <i data-lucide="user" class="w-4 h-4 text-muted"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-charcoal">Verified Client</p>
+              <p class="text-[11px] text-muted">Short-Form &amp; Reels</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-surface border border-border rounded-2xl p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 mb-5">
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+              <span class="text-xs text-muted ml-2 font-medium">5.0</span>
+            </div>
+            <blockquote class="text-sm leading-relaxed text-charcoal/90 mb-6">
+              "SO many great pieces of content made with Jatin! Love his work."
+            </blockquote>
+          </div>
+          <div class="flex items-center gap-3 pt-5 border-t border-border">
+            <div class="w-9 h-9 rounded-full bg-charcoal/10 flex items-center justify-center">
+              <i data-lucide="user" class="w-4 h-4 text-muted"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-charcoal">Verified Client</p>
+              <p class="text-[11px] text-muted">Video Production</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- WORKFLOW & CAPABILITIES                        -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section id="about" class="py-16 md:py-24 px-6 border-t border-border">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Left: Workflow Steps -->
+        <div class="bg-surface border border-border rounded-2xl p-8 md:p-10">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-2">End-to-End Process</p>
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight mb-8">
+            My production <span class="serif-accent">workflow</span>
+          </h2>
+          <div class="space-y-0">
+            <div class="flex items-start gap-4 pb-6 border-l-2 border-border pl-6 relative">
+              <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-charcoal border-4 border-surface"></div>
+              <div><p class="text-sm font-semibold text-charcoal">Script Breakdown</p><p class="text-xs text-muted mt-0.5">Analyzing content structure, audience hooks, and narrative flow</p></div>
+            </div>
+            <div class="flex items-start gap-4 pb-6 border-l-2 border-border pl-6 relative">
+              <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-charcoal/60 border-4 border-surface"></div>
+              <div><p class="text-sm font-semibold text-charcoal">Visual Storyboarding</p><p class="text-xs text-muted mt-0.5">Mapping B-roll, motion graphics, and visual transitions scene-by-scene</p></div>
+            </div>
+            <div class="flex items-start gap-4 pb-6 border-l-2 border-border pl-6 relative">
+              <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-charcoal/40 border-4 border-surface"></div>
+              <div><p class="text-sm font-semibold text-charcoal">Rough Cut &amp; Pacing</p><p class="text-xs text-muted mt-0.5">Assembling the timeline, tuning cut cadence, locking narrative rhythm</p></div>
+            </div>
+            <div class="flex items-start gap-4 pb-6 border-l-2 border-border pl-6 relative">
+              <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-charcoal/30 border-4 border-surface"></div>
+              <div><p class="text-sm font-semibold text-charcoal">Motion Graphics &amp; 3D Tracking</p><p class="text-xs text-muted mt-0.5">Custom After Effects typography, Blender 3D elements, camera tracking</p></div>
+            </div>
+            <div class="flex items-start gap-4 pb-6 border-l-2 border-border pl-6 relative">
+              <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-charcoal/20 border-4 border-surface"></div>
+              <div><p class="text-sm font-semibold text-charcoal">Sound Design &amp; Audio Mastering</p><p class="text-xs text-muted mt-0.5">Foley layers, beat sync, compression, EQ, loudness normalization</p></div>
+            </div>
+            <div class="flex items-start gap-4 pl-6 relative">
+              <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-emerald border-4 border-surface"></div>
+              <div><p class="text-sm font-semibold text-charcoal">Final Color Grade &amp; Delivery</p><p class="text-xs text-muted mt-0.5">DaVinci Resolve color timing, custom LUTs, platform-ready exports</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Stats & Software -->
+        <div class="flex flex-col gap-6">
+          <!-- Stats -->
+          <div class="bg-surface border border-border rounded-2xl p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-6">Track Record</p>
+            <div class="grid grid-cols-2 gap-6">
+              <div><p class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">3+</p><p class="text-xs text-muted mt-1">Years Experience</p></div>
+              <div><p class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">100%</p><p class="text-xs text-muted mt-1">Project Success Rate</p></div>
+              <div><p class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">50+</p><p class="text-xs text-muted mt-1">Projects Delivered</p></div>
+              <div><p class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">5.0 ★</p><p class="text-xs text-muted mt-1">Client Rating</p></div>
+            </div>
+          </div>
+
+          <!-- Software -->
+          <div class="bg-surface border border-border rounded-2xl p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-4">Core Software Stack</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1.5 bg-cream border border-border text-xs font-medium text-charcoal px-3.5 py-2 rounded-full"><i data-lucide="layers" class="w-3.5 h-3.5 text-muted"></i>After Effects</span>
+              <span class="inline-flex items-center gap-1.5 bg-cream border border-border text-xs font-medium text-charcoal px-3.5 py-2 rounded-full"><i data-lucide="film" class="w-3.5 h-3.5 text-muted"></i>Premiere Pro</span>
+              <span class="inline-flex items-center gap-1.5 bg-cream border border-border text-xs font-medium text-charcoal px-3.5 py-2 rounded-full"><i data-lucide="image" class="w-3.5 h-3.5 text-muted"></i>Photoshop</span>
+              <span class="inline-flex items-center gap-1.5 bg-cream border border-border text-xs font-medium text-charcoal px-3.5 py-2 rounded-full"><i data-lucide="box" class="w-3.5 h-3.5 text-muted"></i>Blender</span>
+              <span class="inline-flex items-center gap-1.5 bg-cream border border-border text-xs font-medium text-charcoal px-3.5 py-2 rounded-full"><i data-lucide="palette" class="w-3.5 h-3.5 text-muted"></i>DaVinci Resolve</span>
+              <span class="inline-flex items-center gap-1.5 bg-cream border border-border text-xs font-medium text-charcoal px-3.5 py-2 rounded-full"><i data-lucide="scan" class="w-3.5 h-3.5 text-muted"></i>3D Motion Tracking</span>
+            </div>
+          </div>
+
+          <!-- About Blurb -->
+          <div class="bg-surface border border-border rounded-2xl p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-3">Design Philosophy</p>
+            <p class="text-xs md:text-sm text-charcoal/80 leading-relaxed">
+              I believe every complex topic can be made intuitive, entertaining, and visually striking. My focus is engineering seamless motion, precise audio pacing, and crisp visual hierarchies so viewers stay hooked from the first second to the last.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- CONTACT & FOOTER                               -->
+  <!-- ══════════════════════════════════════════════ -->
+  <section id="contact" class="py-16 md:py-24 px-6 border-t border-border">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted mb-3">Get in Touch</p>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight mb-4" style="line-height: 1.25;">
+        Let's create something <span class="serif-accent">extraordinary</span> together.
+      </h2>
+      <p class="text-sm md:text-base text-muted max-w-lg mx-auto leading-relaxed mb-9">
+        Open for long-term channel partnerships, commercial edits, and freelance contracts.
+      </p>
+
+      <!-- Email Copy Bar -->
+      <div class="inline-flex items-center bg-surface border border-border rounded-full p-1.5 max-w-md w-full justify-between shadow-sm">
+        <span class="px-4 text-xs sm:text-sm font-medium text-charcoal select-all truncate">contact@jatinakhand.com</span>
+        <button onclick="copyEmailFooter()" id="ft-copy-btn" class="flex items-center gap-1.5 bg-charcoal text-cream px-5 py-2.5 text-xs sm:text-sm font-medium rounded-full hover:bg-charcoal/85 transition-colors flex-shrink-0">
+          <i data-lucide="copy" class="w-3.5 h-3.5" id="ft-copy-icon"></i>
+          <span id="ft-copy-text">Copy</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-border py-6 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-xs text-muted">&copy; 2026 Jatin Akhand. Built with editorial precision.</p>
+      <div class="flex items-center gap-1.5">
+        <span class="relative flex h-2 w-2">
+          <span class="pulse-dot absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald"></span>
+        </span>
+        <span class="text-xs text-muted">Available for work</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- UNIVERSAL VIDEO LIGHTBOX MODAL                 -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-charcoal/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8" onclick="closeModalOnBg(event)">
+    <div class="relative w-full max-w-5xl">
+      <div class="flex items-center justify-between mb-3 text-cream">
+        <p id="modal-video-title" class="text-sm font-medium truncate max-w-lg"></p>
+        <button onclick="closeVideoModal()" class="text-cream/70 hover:text-cream transition-colors flex items-center gap-2 text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/20">
+          Close <kbd class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded">ESC</kbd>
+        </button>
+      </div>
+      <!-- Video Container -->
+      <div class="aspect-video bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative" id="modal-player-container">
+        <iframe id="modal-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- JAVASCRIPT LOGIC                               -->
+  <!-- ══════════════════════════════════════════════ -->
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    // ── Mobile Menu Toggle ──
+    const mobBtn = document.getElementById('mob-btn');
+    const mobMenu = document.getElementById('mob-menu');
+    if (mobBtn && mobMenu) {
+      mobBtn.addEventListener('click', () => mobMenu.classList.toggle('hidden'));
+      document.querySelectorAll('.mob-link').forEach(l => {
+        l.addEventListener('click', () => mobMenu.classList.add('hidden'));
+      });
+    }
+
+    // ── Copy Email Handlers ──
+    function copyEmail() {
+      navigator.clipboard.writeText('contact@jatinakhand.com').then(() => {
+        const text = document.getElementById('copy-text');
+        const icon = document.getElementById('copy-icon');
+        text.textContent = 'Copied!';
+        icon.setAttribute('data-lucide', 'check');
+        lucide.createIcons();
+        setTimeout(() => {
+          text.textContent = 'Copy Email';
+          icon.setAttribute('data-lucide', 'copy');
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    function copyEmailFooter() {
+      navigator.clipboard.writeText('contact@jatinakhand.com').then(() => {
+        const text = document.getElementById('ft-copy-text');
+        const icon = document.getElementById('ft-copy-icon');
+        text.textContent = 'Copied!';
+        icon.setAttribute('data-lucide', 'check');
+        lucide.createIcons();
+        setTimeout(() => {
+          text.textContent = 'Copy';
+          icon.setAttribute('data-lucide', 'copy');
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    // ── Slider Navigation (Prev / Next Arrows) ──
+    function slideRow(trackId, direction) {
+      const track = document.getElementById(trackId);
+      if (!track) return;
+      // Scroll by 1 card width (~340px or half the viewport width)
+      const scrollAmount = track.clientWidth * 0.75 * direction;
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+
+    // ── Category Filter Tabs ──
+    function filterCategory(cat, tabBtn) {
+      document.querySelectorAll('.cat-tab').forEach(t => {
+        t.classList.remove('active');
+        t.classList.add('text-muted');
+      });
+      tabBtn.classList.add('active');
+      tabBtn.classList.remove('text-muted');
+
+      document.querySelectorAll('.work-cat').forEach(section => {
+        if (cat === 'all' || section.dataset.cat === cat) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
+
+    // ── Universal Video Embed Helper ──
+    // Supports YouTube (standard, shorts, youtu.be), Vimeo, direct MP4, Loom
+    function formatEmbedUrl(url) {
+      if (!url) return '';
+
+      // YouTube standard or share links
+      if (url.includes('youtube.com/watch')) {
+        const videoId = new URL(url).searchParams.get('v');
+        return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : url;
+      }
+      if (url.includes('youtu.be/')) {
+        const videoId = url.split('youtu.be/')[1]?.split('?')[0];
+        return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : url;
+      }
+      if (url.includes('youtube.com/shorts/')) {
+        const videoId = url.split('youtube.com/shorts/')[1]?.split('?')[0];
+        return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : url;
+      }
+      // Vimeo
+      if (url.includes('vimeo.com/')) {
+        const videoId = url.split('vimeo.com/')[1]?.split('?')[0];
+        return videoId ? `https://player.vimeo.com/video/${videoId}?autoplay=1` : url;
+      }
+
+      return url;
+    }
+
+    // ── Video Modal Player ──
+    const modal = document.getElementById('video-modal');
+    const iframe = document.getElementById('modal-iframe');
+    const modalTitle = document.getElementById('modal-video-title');
+
+    function playVideo(cardElem) {
+      const rawUrl = cardElem.getAttribute('data-video');
+      const title = cardElem.getAttribute('data-title') || 'Project Video Preview';
+      if (!rawUrl) return;
+
+      const embedUrl = formatEmbedUrl(rawUrl);
+      modalTitle.textContent = title;
+      iframe.src = embedUrl;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+      modal.classList.add('hidden');
+      iframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    function closeModalOnBg(event) {
+      if (event.target === modal) {
+        closeVideoModal();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeVideoModal();
+      }
+    });
+
+    // ── Sticky Header Shadow on Scroll ──
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 12) {
+        header.classList.add('shadow-sm');
+      } else {
+        header.classList.remove('shadow-sm');
+      }
+    });
+  </script>
+
+</body>
+</html>
