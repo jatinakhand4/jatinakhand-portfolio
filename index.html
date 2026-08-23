@@ -2068,41 +2068,32 @@
   <!-- VIDEO LIGHTBOX MODAL                           -->
   <!-- ══════════════════════════════════════════════ -->
   <div id="video-modal" class="hidden fixed inset-0 z-[100] bg-charcoal/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-8" onclick="closeModalOnBg(event)">
-    <div id="modal-box" class="relative w-full max-w-5xl transition-all duration-300 flex flex-col">
+    <div id="modal-box" class="relative w-full max-w-4xl transition-all duration-300 flex flex-col">
       
-      <!-- Top Header: Title + Close Button Only -->
-      <div class="flex items-center justify-between gap-3 mb-2.5 sm:mb-3 text-cream">
-        <div class="min-w-0 flex-1 flex items-center gap-2">
+      <!-- Top Header Row: Title (max-w-[55%]) + Compact Action Buttons -->
+      <div class="flex items-center justify-between gap-2 mb-2 sm:mb-3 text-cream">
+        <div class="min-w-0 flex items-center gap-2 max-w-[55%] sm:max-w-[70%]">
           <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse"></span>
           <p id="modal-video-title" class="text-xs sm:text-sm font-semibold truncate text-white">Project Video Preview</p>
         </div>
-        <button onclick="closeVideoModal()" class="flex-shrink-0 h-8 px-3 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center gap-1.5 text-xs font-medium border border-white/20 transition-all active:scale-95 shadow-xs" aria-label="Close modal">
-          <span>Close</span>
-          <kbd class="hidden sm:inline-block text-[10px] bg-white/20 px-1.5 py-0.2 rounded font-mono">ESC</kbd>
-          <i data-lucide="x" class="w-3.5 h-3.5 sm:hidden"></i>
-        </button>
-      </div>
-
-      <!-- Video Player Frame -->
-      <div id="modal-frame-wrap" class="aspect-video bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center">
-        <iframe id="modal-iframe" class="w-full h-full hidden" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <video id="modal-video" class="w-full h-full hidden" controls autoplay playsinline></video>
-      </div>
-
-      <!-- Bottom Action Bar below Player -->
-      <div id="modal-footer" class="mt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
-        <div class="flex items-center gap-2 text-white/70 text-xs">
-          <span class="inline-flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-full text-[11px] font-mono text-white/90 border border-white/10">
-            <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-400"></i> Full HD Stream
-          </span>
-          <span class="text-[11px] text-white/50 hidden xs:inline">Tap outside to close</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <a id="modal-external-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 text-xs font-semibold bg-white text-charcoal hover:bg-neutral-100 px-4 py-2 rounded-full transition-all shadow-md active:scale-95">
-            <span id="modal-ext-text">Open in Google Drive</span>
-            <i data-lucide="external-link" class="w-3.5 h-3.5 flex-shrink-0"></i>
+        
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <a id="modal-external-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden text-[11px] sm:text-xs font-semibold whitespace-nowrap bg-white/10 hover:bg-white/20 text-cream px-2.5 sm:px-3 py-1.5 rounded-full border border-white/20 items-center gap-1 sm:gap-1.5 transition-colors flex-shrink-0">
+            <span id="modal-ext-text">Drive</span>
+            <i data-lucide="external-link" class="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0"></i>
           </a>
+          <button onclick="closeVideoModal()" class="text-cream/90 hover:text-cream transition-colors flex items-center gap-1 text-[11px] sm:text-xs font-medium whitespace-nowrap bg-white/15 hover:bg-white/25 px-2.5 sm:px-3 py-1.5 rounded-full border border-white/20 flex-shrink-0 active:scale-95" aria-label="Close modal">
+            <span>Close</span>
+            <span class="sm:hidden text-xs">✕</span>
+            <kbd class="hidden sm:inline-block text-[10px] bg-white/20 px-1.5 py-0.2 rounded font-mono ml-0.5">ESC</kbd>
+          </button>
         </div>
+      </div>
+
+      <!-- Video Player Frame / Wrapper with min-h responsive styling -->
+      <div id="modalPlayerWrapper" class="aspect-video min-h-[260px] sm:min-h-[400px] w-full bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center">
+        <iframe id="modal-iframe" class="w-full h-full min-h-full hidden" src="" frameborder="0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <video id="modal-video" class="w-full h-full min-h-full hidden" controls autoplay playsinline></video>
       </div>
 
     </div>
@@ -2113,30 +2104,32 @@
   <!-- THUMBNAIL LIGHTBOX MODAL                       -->
   <!-- ══════════════════════════════════════════════ -->
   <div id="image-modal" class="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 md:p-8" onclick="closeImageModalOnBg(event)">
-    <div class="relative w-full max-w-5xl transition-all duration-300 flex flex-col">
+    <div class="relative w-full max-w-4xl transition-all duration-300 flex flex-col">
       
-      <!-- Top Header: Title + Close Button Only -->
-      <div class="flex items-center justify-between gap-3 mb-2.5 sm:mb-3 text-cream">
-        <div class="min-w-0 flex-1 flex items-center gap-2">
+      <!-- Top Header Row -->
+      <div class="flex items-center justify-between gap-2 mb-2 sm:mb-3 text-cream">
+        <div class="min-w-0 flex items-center gap-2 max-w-[55%] sm:max-w-[70%]">
           <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse"></span>
           <p id="image-modal-title" class="text-xs sm:text-sm font-semibold truncate text-white">Thumbnail Preview</p>
         </div>
-        <button onclick="closeImageModal()" class="flex-shrink-0 h-8 px-3 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center gap-1.5 text-xs font-medium border border-white/20 transition-all active:scale-95 shadow-xs" aria-label="Close modal">
-          <span>Close</span>
-          <kbd class="hidden sm:inline-block text-[10px] bg-white/20 px-1.5 py-0.2 rounded font-mono">ESC</kbd>
-          <i data-lucide="x" class="w-3.5 h-3.5 sm:hidden"></i>
-        </button>
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <span class="text-[11px] font-mono bg-white/10 px-2.5 py-1 rounded-full text-white/80 border border-white/10 hidden sm:inline-block">16:9 Full Res</span>
+          <button onclick="closeImageModal()" class="text-cream/90 hover:text-cream transition-colors flex items-center gap-1 text-[11px] sm:text-xs font-medium whitespace-nowrap bg-white/15 hover:bg-white/25 px-2.5 sm:px-3 py-1.5 rounded-full border border-white/20 flex-shrink-0 active:scale-95" aria-label="Close modal">
+            <span>Close</span>
+            <span class="sm:hidden text-xs">✕</span>
+            <kbd class="hidden sm:inline-block text-[10px] bg-white/20 px-1.5 py-0.2 rounded font-mono ml-0.5">ESC</kbd>
+          </button>
+        </div>
       </div>
 
       <!-- Image Frame -->
-      <div class="aspect-video bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center">
+      <div class="aspect-video min-h-[220px] sm:min-h-[380px] bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center">
         <img id="image-modal-img" src="" alt="Full Resolution Thumbnail" class="w-full h-full object-contain">
       </div>
 
       <!-- Bottom Info Bar below Thumbnail -->
-      <div class="mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+      <div class="mt-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
         <p id="image-modal-desc" class="text-xs text-white/80 leading-relaxed min-w-0 flex-1"></p>
-        <span class="text-[11px] font-mono bg-white/10 px-2.5 py-1 rounded-full text-white/80 border border-white/10 flex-shrink-0 hidden sm:inline-block">16:9 Thumbnail (Full Res)</span>
       </div>
 
     </div>
@@ -2240,7 +2233,7 @@
     // ── 5. Universal Video Lightbox Modal ──
     const modal = document.getElementById('video-modal');
     const modalBox = document.getElementById('modal-box');
-    const modalFrameWrap = document.getElementById('modal-frame-wrap');
+    const modalPlayerWrapper = document.getElementById('modalPlayerWrapper');
     const iframe = document.getElementById('modal-iframe');
     const nativeVideo = document.getElementById('modal-video');
     const modalTitle = document.getElementById('modal-video-title');
@@ -2289,27 +2282,31 @@
       return url;
     }
 
+    function openModal(videoUrl, title, isVertical = false) {
+      openVideoModal(videoUrl, title, isVertical);
+    }
+
     function openVideoModal(videoUrl, title, isVertical = false) {
       modalTitle.textContent = title || 'Project Video Preview';
       
-      // Adapt aspect ratio for 9:16 Shorts/Reels vs 16:9 Landscape
+      // Dynamically switch aspect ratio and responsive min-height
       if (isVertical) {
         modalBox.className = 'relative w-full max-w-sm transition-all duration-300 flex flex-col';
-        modalFrameWrap.className = 'aspect-[9/16] max-h-[75vh] bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center';
+        modalPlayerWrapper.className = 'aspect-[9/16] min-h-[480px] max-h-[85vh] w-full bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center';
       } else {
-        modalBox.className = 'relative w-full max-w-5xl transition-all duration-300 flex flex-col';
-        modalFrameWrap.className = 'aspect-video bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center';
+        modalBox.className = 'relative w-full max-w-4xl transition-all duration-300 flex flex-col';
+        modalPlayerWrapper.className = 'aspect-video min-h-[260px] sm:min-h-[400px] w-full bg-charcoal rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative flex items-center justify-center';
       }
 
       const ytId = extractYouTubeId(videoUrl);
       if (ytId) {
         modalExtLink.href = `https://www.youtube.com/watch?v=${ytId}`;
-        if (modalExtText) modalExtText.textContent = 'Watch on YouTube';
+        if (modalExtText) modalExtText.textContent = 'YouTube';
         modalExtLink.classList.remove('hidden');
         modalExtLink.classList.add('inline-flex');
       } else if (videoUrl.includes('drive.google.com')) {
         modalExtLink.href = videoUrl.replace('/preview', '/view');
-        if (modalExtText) modalExtText.textContent = 'Open in Google Drive';
+        if (modalExtText) modalExtText.textContent = 'Drive';
         modalExtLink.classList.remove('hidden');
         modalExtLink.classList.add('inline-flex');
       } else {
